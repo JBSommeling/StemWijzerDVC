@@ -1,4 +1,5 @@
 //Function to go to next subject.
+// @param subject - number of subject.
 function nextSubject(subject){
     let obj = subjects[subject];
 
@@ -15,5 +16,22 @@ function nextSubject(subject){
     if (subject != 0){
         title.removeChild(titles[subject-1]);
         description.removeChild(statements[subject-1]);
+    }
+}
+
+//Function to go to previous subject.
+// @param subject - number of subject.
+function previousSubject(subject){
+
+    if (subject >= 0) {
+        // TITLE
+        title.appendChild(titles[subject]);
+
+        //STATEMENT
+        description.appendChild(statements[subject]);
+
+
+        title.removeChild(titles[subject + 1]);
+        description.removeChild(statements[subject + 1]);
     }
 }

@@ -14,13 +14,13 @@ let bar = document.getElementById('progress-bar');
 (function () {
     document.getElementById('nextArrow-box').style.display = 'none';
     document.getElementById('previousArrow-box').style.display = 'none';
-    
+
     let startBtn = document.createElement('button');
     startBtn.innerHTML = "Start";
     startBtn.className = "w3-button w3-black";
     startBtn.onclick  = function(){
         removeFunc(buttonContainer, startBtn);
-        start(subjectNr);
+        start(subjectNr, stepsNr);
     };
     buttonContainer.appendChild(startBtn);
 }());
@@ -34,18 +34,26 @@ function removeFunc(container, element){
 
 // Function to initialize setup.
 // @param subject - the subject to start with
-function start(subject){
+// @param step - the step for the progress-bar
+function start(subject, step){
 
     //Initialize buttons
     document.getElementById('nextArrow-box').style.display = 'inline-block';
-    document.getElementById('previousArrow-box').style.display = 'inline-block';
+    let previousArrow = document.getElementById('previousArrow-box');
+    previousArrow.style.display = 'inline-block';
+    previousArrow.onclick = function(){
+        if (subject >=0) { //Verwijderen??
+            previousSubject(--subject);
+            previousStep(step--);
+        }
+    };
 
     let agreeBtn = document.createElement('button');
     agreeBtn.innerHTML = "Eens";
     agreeBtn.className = "w3-button w3-black button";
     agreeBtn.onclick = function(){
         nextSubject(++subject);
-        nextStep(stepsNr++)
+        nextStep(++step)
     };
 
     let noneBtn = document.createElement('button');
@@ -53,7 +61,7 @@ function start(subject){
     noneBtn.className = "w3-button w3-black button";
     noneBtn.onclick = function(){
         nextSubject(++subject);
-        nextStep(stepsNr++)
+        nextStep(++step)
     };
 
     let disagreeBtn = document.createElement('button');
@@ -61,7 +69,7 @@ function start(subject){
     disagreeBtn.className = "w3-button w3-black button";
     disagreeBtn.onclick = function(){
         nextSubject(++subject);
-        nextStep(stepsNr++)
+        nextStep(++step)
     };
 
     buttonContainer.appendChild(agreeBtn);
@@ -69,6 +77,7 @@ function start(subject){
     buttonContainer.appendChild(disagreeBtn);
 
     nextSubject(subject);
+    nextStep(stepsNr);
 }
 
 

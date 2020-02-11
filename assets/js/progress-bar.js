@@ -7,14 +7,21 @@ for (steps = stepsNr; steps < subjects.length; steps++){
     bar.appendChild(step);
 }
 
+//Function to enter the next step in progress-bar.
+//@param stepCounter - the current step of te progress-bar
 function nextStep(stepCounter){
-    if (stepsNr <= subjects.length) {
+
+    if (stepCounter <= subjects.length) {
         step = document.getElementsByClassName('step');
         step[stepCounter].style.backgroundColor = 'rgb(1,180,220)';
     }
 }
 
+//Function to enter the previous step in progress-bar.
+//@param stepCounter - the current step of te progress-bar
 function previousStep(stepCounter){
-    step = document.getElementsByClassName('step');
-    step[stepCounter].style.backgroundColor = 'white';
+    if (stepCounter >= 1) {
+        step = document.getElementsByClassName('step');
+        step[stepCounter].style.backgroundColor = 'white';
+    }
 }

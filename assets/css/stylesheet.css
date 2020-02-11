@@ -1,0 +1,48 @@
+body, html {
+    height: 100%;
+}
+.w3-container {
+    background-image: url("../img/background.jpg");
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 30px 0;
+    box-sizing: border-box;
+}
+
+/*FOREGROUND*/
+.foreground {
+    height: 80vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/*FOOTER*/
+.footer {
+    position: relative;
+    height: 100%;
+}
+
+#logo-stemwijzer{
+    float: left;
+    width: 150px;
+}
+
+#logo-prodemos {
+    float: right;
+    width: 125px;
+}
+
+#logo-1v-s {
+    float: right;
+    margin-left: 10px;
+}
+
+#logo-stemwijzer, #logo-prodemos, #logo-1v-s {
+    transform: translate(0,83vh);
+}
+

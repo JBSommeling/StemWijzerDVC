@@ -9,6 +9,7 @@ let buttonContainer = document.getElementById("buttons");
 (function () {
     let startBtn = document.createElement('button');
     startBtn.innerHTML = "Start";
+    startBtn.className = "w3-button w3-black";
     addBtn(buttonContainer, startBtn);
     startBtn.onclick  = function(){
         removeBtn(buttonContainer, startBtn);
@@ -27,22 +28,21 @@ function removeBtn(container, element){
 //@param container - the parent of the button.
 //@param element - the button to added.
 function addBtn(container, element){
-    element.className = "w3-button w3-black button";
     container.appendChild(element);
 }
 
 function start(){
     let disagreeBtn = document.createElement('button');
     disagreeBtn.innerHTML = "Oneens";
-    disagreeBtn.className = "button";
+    disagreeBtn.className = "w3-button w3-black button";
 
     let noneBtn = document.createElement('button');
     noneBtn.innerHTML = "Geen van beide";
-    noneBtn.className = "button";
+    noneBtn.className = "w3-button w3-black button";
 
     let agreeBtn = document.createElement('button');
     agreeBtn.innerHTML = "Eens";
-    agreeBtn.className = 'button';
+    agreeBtn.className = "w3-button w3-black button";
 
     addBtn(buttonContainer, disagreeBtn);
     addBtn(buttonContainer, noneBtn);

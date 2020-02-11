@@ -15,10 +15,18 @@
     <div class="w3-container">
         <div class="w3-row">
             <div class="foreground w3-col m10 w3-white">
+                <div id="progress-bar" class="w3-col m12"></div>
                 <div class="content w3-col m12">
+                    <div id="previousArrow-box">
+                        <img id="previousArrow" src="assets/img/icon-arrow-back.svg" alt="">
+                    </div>
                     <div id="title" class="title"></div>
                     <div id="description" ></div>
                     <div id="buttons"></div>
+                    <div id="nextArrow-box">Sla deze vraag over
+                        <img id="nextArrow" src="assets/img/icon-backspace-right.svg" alt="">
+                    </div>
+
                 </div>
 
                 <div class="footer">
@@ -30,6 +38,9 @@
         </div>
     </div>
 
+    <script type="text/javascript" src="assets/js/data.js"></script>
+    <script type="text/javascript" src="assets/js/initialize.js"></script>
     <script type="text/javascript" src="assets/js/subjects.js"></script>
+    <script type="text/javascript" src="assets/js/progress-bar.js"></script>
 </body>
 </html>

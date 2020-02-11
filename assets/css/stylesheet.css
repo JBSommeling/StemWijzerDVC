@@ -31,8 +31,48 @@ body, html {
 
 .button{
     margin-left: 2rem;
+    position: relative;
+    right: 17rem;
+    top: 7rem;
+    width: 10rem;
 }
 
+#title, #description {
+    position: relative;
+    right: 15rem;
+    width: 40rem;
+    height: 4rem;
+}
+
+#title {
+    color: rgb(1,180,220);
+    font-weight: bold;
+}
+
+#nextArrow-box {
+    color: #9e9e9e;
+    position: relative;
+    top: 10rem;
+    right: 4rem;
+}
+
+#previousArrow {
+    width: 2rem;
+    position: relative;
+    top: 1rem;
+    left: 1rem;
+}
+
+#previousArrow-box {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 2rem;
+    background-color: #9e9e9e;
+    display: inline-block;
+    position: relative;
+    bottom: 5rem;
+    right: 16rem;
+}
 
 /*FOOTER*/
 .footer {
@@ -56,6 +96,6 @@ body, html {
 }
 
 #logo-stemwijzer, #logo-prodemos, #logo-1v-s {
-    transform: translate(0,83vh);
+    transform: translate(0,79vh);
 }
 

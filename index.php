@@ -15,7 +15,7 @@
     <div class="w3-container">
         <div class="w3-row">
             <div class="foreground w3-col m10 w3-white">
-                <div class="content w3-col">
+                <div class="content w3-col m12">
                     <div id="title" class="title"></div>
                     <div id="description" ></div>
                     <div id="buttons"></div>
@@ -29,5 +29,7 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript" src="assets/js/subjects.js"></script>
 </body>
 </html>

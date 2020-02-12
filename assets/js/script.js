@@ -7,19 +7,35 @@ let subjectNr = 0;
 let titles = [];
 let statements = [];
 let numberOfSteps = 0;
-let opinionOfUsers = [];
-let partyOpinion = [];
-
-//To initialize the partyOpinion array.
-for(let opinion = 0; opinion < parties.length; opinion++){
-    partyOpinion.push([parties[opinion].name, 0]);
-}
+let userOpinion = [];               //this array keeps tabs on answers given.
+let partyOpinionCounter = [];       //This array keeps tabs on the opinion of the user based on opinion of the parties.
+let partyOpinionPerSubject = [];    //This array keeps tabs on the opinions of the parties per subject.
 
 // DOM elements
 let title = document.getElementById("title");
 let description = document.getElementById('description');
 let buttonContainer = document.getElementById("buttons");
 let bar = document.getElementById('progress-bar');
+
+//To initialize the partyOpinionCounter array.
+(function() {
+    for (let partyOpinionNumber = 0; partyOpinionNumber < parties.length; partyOpinionNumber++) {
+        partyOpinionCounter[parties[partyOpinionNumber].name] = 0;
+    }
+}());
+
+//To initialize the partyOpinionPerSubject Array.
+(function() {
+    //looping through object per subject
+    for (subject= 0; subject < subjects.length; subject++) {
+        partyOpinionPerSubject.push([subject, subject]);
+        //looping per subject's parties
+        for (party = 0; party < subjects[subject]['parties'].length; party++) {
+            partyOpinionPerSubject[subject][party] = subjects[subject]['parties'][party]['position'];
+            console.log(partyOpinionPerSubject);
+        }
+    }
+}());
 
 //To initialize the start screen.
 (function () {
@@ -56,7 +72,7 @@ function start(subject, step){
         if (subject > 0) {
             previousSubject(--subject);
             previousStep(step--);
-            opinionOfUsers.pop();
+            userOpinion.pop();
         }
     };
 
@@ -66,7 +82,7 @@ function start(subject, step){
     agreeBtn.onclick = function(){
         nextSubject(++subject);
         nextStep(++step);
-        opinionOfUsers.push("pro");
+        userOpinion.push("pro");
         getOpinions();
     };
 
@@ -76,7 +92,7 @@ function start(subject, step){
     noneBtn.onclick = function(){
         nextSubject(++subject);
         nextStep(++step);
-        opinionOfUsers.push("none");
+        userOpinion.push("none");
     };
 
     let disagreeBtn = document.createElement('button');
@@ -85,7 +101,7 @@ function start(subject, step){
     disagreeBtn.onclick = function(){
         nextSubject(++subject);
         nextStep(++step);
-        opinionOfUsers.push("contra");
+        userOpinion.push("contra");
     };
 
     buttonContainer.appendChild(agreeBtn);
@@ -116,7 +132,7 @@ function nextSubject(subject){
     statements[subject].innerHTML = obj.statement;
     description.appendChild(statements[subject]);
 
-    if (subject != 0){
+    if (subject !== 0){
         title.removeChild(titles[subject-1]);
         description.removeChild(statements[subject-1]);
     }
@@ -137,10 +153,10 @@ function previousSubject(subject){
     }
 }
 
-function getOpinions(){
+function getOpinions(opinion){
+    //if (opinion === 'pro'){
 
-
-    //console.log(partyOpinion);
+    //}
 }
 
 // ============================================================

@@ -39,8 +39,6 @@
     </div>
 
     <script type="text/javascript" src="assets/js/data.js"></script>
-    <script type="text/javascript" src="assets/js/initialize.js"></script>
-    <script type="text/javascript" src="assets/js/subjects.js"></script>
-    <script type="text/javascript" src="assets/js/progress-bar.js"></script>
+    <script type="text/javascript" src="assets/js/script.js"></script>
 </body>
 </html>

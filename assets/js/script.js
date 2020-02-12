@@ -2,14 +2,18 @@
 // Initializer
 // ============================================================
 
-
 // Variables
 let subjectNr = 0;
 let titles = [];
 let statements = [];
 let numberOfSteps = 0;
 let opinionOfUsers = [];
-let opinionOfParties = [];
+let partyOpinion = [];
+
+//To initialize the partyOpinion array.
+for(let opinion = 0; opinion < parties.length; opinion++){
+    partyOpinion.push([parties[opinion].name, 0]);
+}
 
 // DOM elements
 let title = document.getElementById("title");
@@ -49,7 +53,7 @@ function start(subject, step){
     let previousArrow = document.getElementById('previousArrow-box');
     previousArrow.style.display = 'inline-block';
     previousArrow.onclick = function(){
-        if (subject > 0) { //Verwijderen??
+        if (subject > 0) {
             previousSubject(--subject);
             previousStep(step--);
             opinionOfUsers.pop();
@@ -63,6 +67,7 @@ function start(subject, step){
         nextSubject(++subject);
         nextStep(++step);
         opinionOfUsers.push("pro");
+        getOpinions();
     };
 
     let noneBtn = document.createElement('button');
@@ -127,17 +132,22 @@ function previousSubject(subject){
         //STATEMENT
         description.appendChild(statements[subject]);
 
-
         title.removeChild(titles[subject + 1]);
         description.removeChild(statements[subject + 1]);
     }
+}
+
+function getOpinions(){
+
+
+    //console.log(partyOpinion);
 }
 
 // ============================================================
 // Progress-bar
 // ============================================================
 
-for (steps = numberOfSteps; steps < subjects.length; steps++){
+for (let steps = numberOfSteps; steps < subjects.length; steps++){
     let step = document.createElement('div');
     step.style.height = '2rem';
     step.className = 'step';

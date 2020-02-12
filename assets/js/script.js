@@ -7,8 +7,8 @@ let subjectNr = 0;
 let titles = [];
 let statements = [];
 let numberOfSteps = 0;
-let userOpinion = [];               //this array keeps tabs on answers given.
-let partyOpinionCounter = [];       //This array keeps tabs on the opinion of the user based on opinion of the parties.
+let userOpinion = [];               //This array keeps tabs on answers given.
+let partyOpinionCounter = [];       //This array keeps tabs on the score based on the answers given.
 let partyOpinionPerSubject = [];    //This array keeps tabs on the opinions of the parties per subject.
 
 // DOM elements
@@ -17,27 +17,27 @@ let description = document.getElementById('description');
 let buttonContainer = document.getElementById("buttons");
 let bar = document.getElementById('progress-bar');
 
-//To initialize the partyOpinionCounter array.
+//To initialize the partyOpinionCounter array. Sets values to zero.
 (function() {
     for (let partyOpinionNumber = 0; partyOpinionNumber < parties.length; partyOpinionNumber++) {
-        partyOpinionCounter[parties[partyOpinionNumber].name] = 0;
+        partyOpinionCounter[parties[partyOpinionNumber]['name']] = 0;
     }
 }());
 
-//To initialize the partyOpinionPerSubject Array.
+//To initialize the partyOpinionPerSubject Array. Fills the array with opinion of parties
 (function() {
     //looping through object per subject
     for (subject= 0; subject < subjects.length; subject++) {
+        //To add multidimensional array properties to array.
         partyOpinionPerSubject.push([subject, subject]);
         //looping per subject's parties
         for (party = 0; party < subjects[subject]['parties'].length; party++) {
             partyOpinionPerSubject[subject][party] = subjects[subject]['parties'][party]['position'];
-            console.log(partyOpinionPerSubject);
         }
     }
 }());
 
-//To initialize the start screen.
+//To render the start screen.
 (function () {
     document.getElementById('nextArrow-box').style.display = 'none';
     document.getElementById('previousArrow-box').style.display = 'none';
@@ -153,10 +153,23 @@ function previousSubject(subject){
     }
 }
 
-function getOpinions(opinion){
+function getOpinions(){
     //if (opinion === 'pro'){
-
+     //useropinion vergelijken per opinie met partyOpinionPerSubject en dan wegzetten in partyOpinionCounter
     //}
+
+
+
+    for (let i = 0; i < userOpinion.length; i++){
+        if (partyOpinionPerSubject[i].includes('pro') && userOpinion[i].includes('pro')){
+            // in kaart brengen welke values ik met elkaar moet verbinden met partyOpinionPerSubject en partyOpinionCounter
+            // of iets met code:
+            //     for (let partyOpinionNumber = 0; partyOpinionNumber < parties.length; partyOpinionNumber++) {
+            //         partyOpinionCounter[parties[partyOpinionNumber]['name']] = 0;
+            //     }
+        }
+    }
+
 }
 
 // ============================================================

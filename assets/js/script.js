@@ -18,6 +18,10 @@ let description = document.getElementById('description');
 let buttonContainer = document.getElementById("buttons");
 let bar = document.getElementById('progress-bar');
 
+// ============================================================
+// Initialization of Arrays
+// ============================================================
+
 //To initialize the partyOpinionCounter array. Sets values to zero and changes to alphabetical order.
 (function() {
     let partyOpinionCounter = [];
@@ -56,6 +60,10 @@ let bar = document.getElementById('progress-bar');
     //BandAid - somehow when ordering the parties array, the Libertarische Partij gets doubled.
     orderedParties.splice(10,1);
 }());
+
+// ============================================================
+// Initialization of elements
+// ============================================================
 
 //To render the start screen.
 (function () {
@@ -103,7 +111,7 @@ function start(subject, step){
         nextSubject(++subject);
         nextStep(++step);
         userOpinion.push("pro");
-        getOpinions();
+        addOpinions('pro');
     };
 
     let noneBtn = document.createElement('button');
@@ -113,6 +121,7 @@ function start(subject, step){
         nextSubject(++subject);
         nextStep(++step);
         userOpinion.push("none");
+        addOpinions('none');
     };
 
     let disagreeBtn = document.createElement('button');
@@ -122,6 +131,8 @@ function start(subject, step){
         nextSubject(++subject);
         nextStep(++step);
         userOpinion.push("contra");
+        addOpinions('contra');
+
     };
 
     buttonContainer.appendChild(agreeBtn);
@@ -174,18 +185,19 @@ function previousSubject(subject){
 }
 
 // Function to add opinion in the orderedPartyOpinionCounter.
-function getOpinions(){
+function addOpinions(opinion){
+    console.log(opinion);
      for (let i = 0; i < userOpinion.length; i++){
-        if (userOpinion[i].includes('pro')){
-            // loops through the partyOpinionPerSubject array and uses the found index to
+        if (userOpinion[i].includes(opinion)){
+            // loops through the partyOpinionPerSubject array and uses the found index to filter the opinion.
             for (let p = 0; p < partyOpinionPerSubject[i].length; p++){
-                let indexOfOpinion = partyOpinionPerSubject[i].indexOf('pro');
+                let indexOfOpinion = partyOpinionPerSubject[i].indexOf(opinion);
                 partyOpinionPerSubject[i][indexOfOpinion] = "";
-                if (indexOfOpinion !== -1 ) {
+
+                //the filtered opinion is now used to add +1 value to the orderedPartyOpinionCounter
+                if (indexOfOpinion !== -1) {
                     orderedPartyOpinionCounter[orderedParties[indexOfOpinion]['name']] += 1;
                 }
-                console.log(partyOpinionPerSubject);
-                console.log(orderedParties);
                 console.log(orderedPartyOpinionCounter);
             }
         }

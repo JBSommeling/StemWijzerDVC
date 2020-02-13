@@ -7,9 +7,10 @@ let subjectNr = 0;
 let titles = [];
 let statements = [];
 let numberOfSteps = 0;
-let userOpinion = [];               //This array keeps tabs on answers given.
-let partyOpinionCounter = [];       //This array keeps tabs on the score based on the answers given.
-let partyOpinionPerSubject = [];    //This array keeps tabs on the opinions of the parties per subject.
+let userOpinion = [];                   //This array keeps tabs on answers given.
+let orderedPartyOpinionCounter = [];    //This array keeps tabs on the score based on the answers given in alphabetical order.
+let partyOpinionPerSubject = [];        //This array keeps tabs on the opinions of the parties per subject in alphabetical order.
+let orderedParties = [];                //This is the parties array, in alphabetical order.
 
 // DOM elements
 let title = document.getElementById("title");
@@ -17,24 +18,43 @@ let description = document.getElementById('description');
 let buttonContainer = document.getElementById("buttons");
 let bar = document.getElementById('progress-bar');
 
-//To initialize the partyOpinionCounter array. Sets values to zero.
+//To initialize the partyOpinionCounter array. Sets values to zero and changes to alphabetical order.
 (function() {
+    let partyOpinionCounter = [];
     for (let partyOpinionNumber = 0; partyOpinionNumber < parties.length; partyOpinionNumber++) {
         partyOpinionCounter[parties[partyOpinionNumber]['name']] = 0;
     }
+    //To change the partyOpinionCounter array to alphabetical order by key.
+    Object.keys(partyOpinionCounter).sort().forEach(function(key){
+        orderedPartyOpinionCounter[key] = partyOpinionCounter[key];
+    });
 }());
 
 //To initialize the partyOpinionPerSubject Array. Fills the array with opinion of parties
 (function() {
+    let sortedParties = [];
     //looping through object per subject
     for (subject= 0; subject < subjects.length; subject++) {
+
+        //To sort subjects[subject].parties array in alphabetical order.
+        sortedParties[subject] = subjects[subject].parties.sort((a, b) => (a.name > b.name) ? 1:-1);
+
         //To add multidimensional array properties to array.
         partyOpinionPerSubject.push([subject, subject]);
+
         //looping per subject's parties
         for (party = 0; party < subjects[subject]['parties'].length; party++) {
-            partyOpinionPerSubject[subject][party] = subjects[subject]['parties'][party]['position'];
+            partyOpinionPerSubject[subject][party] = sortedParties[subject][party]['position'];
         }
     }
+}());
+
+// To reset the order of the parties array.
+(function () {
+    orderedParties = parties.sort((a, b) => (a.name > b.name) ? 1:-1);
+
+    //BandAid - somehow when ordering the parties array, the Libertarische Partij gets doubled.
+    orderedParties.splice(10,1);
 }());
 
 //To render the start screen.
@@ -84,9 +104,6 @@ function start(subject, step){
         nextStep(++step);
         userOpinion.push("pro");
         getOpinions();
-        console.log(userOpinion);
-        console.log(partyOpinionPerSubject);
-        console.log(partyOpinionCounter);
     };
 
     let noneBtn = document.createElement('button');
@@ -156,23 +173,20 @@ function previousSubject(subject){
     }
 }
 
+// Function to add opinion in the orderedPartyOpinionCounter.
 function getOpinions(){
      for (let i = 0; i < userOpinion.length; i++){
         if (userOpinion[i].includes('pro')){
-
             // loops through the partyOpinionPerSubject array and uses the found index to
-            for (let p = 0; p <= partyOpinionPerSubject[i].length; p++){
+            for (let p = 0; p < partyOpinionPerSubject[i].length; p++){
                 let indexOfOpinion = partyOpinionPerSubject[i].indexOf('pro');
                 partyOpinionPerSubject[i][indexOfOpinion] = "";
-
                 if (indexOfOpinion !== -1 ) {
-
-                    
-
-                    let sortedPartyOpinionCounter = partyOpinionCounter.sort();
-                    sortedPartyOpinionCounter[parties[indexOfOpinion]['name']] += 1;
-                    console.log(sortedPartyOpinionCounter);
+                    orderedPartyOpinionCounter[orderedParties[indexOfOpinion]['name']] += 1;
                 }
+                console.log(partyOpinionPerSubject);
+                console.log(orderedParties);
+                console.log(orderedPartyOpinionCounter);
             }
         }
      }

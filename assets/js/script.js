@@ -84,6 +84,9 @@ function start(subject, step){
         nextStep(++step);
         userOpinion.push("pro");
         getOpinions();
+        console.log(userOpinion);
+        console.log(partyOpinionPerSubject);
+        console.log(partyOpinionCounter);
     };
 
     let noneBtn = document.createElement('button');
@@ -154,21 +157,25 @@ function previousSubject(subject){
 }
 
 function getOpinions(){
-    //if (opinion === 'pro'){
-     //useropinion vergelijken per opinie met partyOpinionPerSubject en dan wegzetten in partyOpinionCounter
-    //}
+     for (let i = 0; i < userOpinion.length; i++){
+        if (userOpinion[i].includes('pro')){
 
+            // loops through the partyOpinionPerSubject array and uses the found index to
+            for (let p = 0; p <= partyOpinionPerSubject[i].length; p++){
+                let indexOfOpinion = partyOpinionPerSubject[i].indexOf('pro');
+                partyOpinionPerSubject[i][indexOfOpinion] = "";
 
+                if (indexOfOpinion !== -1 ) {
 
-    for (let i = 0; i < userOpinion.length; i++){
-        if (partyOpinionPerSubject[i].includes('pro') && userOpinion[i].includes('pro')){
-            // in kaart brengen welke values ik met elkaar moet verbinden met partyOpinionPerSubject en partyOpinionCounter
-            // of iets met code:
-            //     for (let partyOpinionNumber = 0; partyOpinionNumber < parties.length; partyOpinionNumber++) {
-            //         partyOpinionCounter[parties[partyOpinionNumber]['name']] = 0;
-            //     }
+                    
+
+                    let sortedPartyOpinionCounter = partyOpinionCounter.sort();
+                    sortedPartyOpinionCounter[parties[indexOfOpinion]['name']] += 1;
+                    console.log(sortedPartyOpinionCounter);
+                }
+            }
         }
-    }
+     }
 
 }
 

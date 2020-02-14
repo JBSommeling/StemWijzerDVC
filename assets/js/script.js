@@ -9,9 +9,6 @@ let statements = [];
 let numberOfSteps = 0;
 let answers = [];                           //This array keeps tabs on answers given.
 let opinionCounter = [];                    //This array keeps tabs on the score based on the answers given in alphabetical order.
-let orderedParties = [];                    //This is the parties array, in alphabetical order.
-
-
 
 // DOM elements
 let title = document.getElementById("title");
@@ -143,6 +140,7 @@ function previousSubject(subject){
     }
 }
 
+// Function to calculate/ add +1 to opinionCounter array per given answer by user.
 function calcOpinion(){
     // To set (reset) values of opinionCounter to 0.
     for (let index = 0; index < parties.length; index++) {

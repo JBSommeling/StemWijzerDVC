@@ -55,7 +55,6 @@ function start(subject, step){
         if (subject > 0) {
             previousSubject(--subject);
             previousStep(step--);
-            //substractOpinions();
             answers.pop();
         }
     };
@@ -68,7 +67,6 @@ function start(subject, step){
         nextStep(++step);
         answers.push("pro");
         calcOpinion();
-        //addOpinions('pro');
     };
 
     let noneBtn = document.createElement('button');
@@ -78,7 +76,7 @@ function start(subject, step){
         nextSubject(++subject);
         nextStep(++step);
         answers.push("none");
-        //addOpinions('none');
+        calcOpinion();
     };
 
     let disagreeBtn = document.createElement('button');
@@ -88,7 +86,7 @@ function start(subject, step){
         nextSubject(++subject);
         nextStep(++step);
         answers.push("contra");
-        //addOpinions('contra');
+        calcOpinion();
     };
 
     buttonContainer.appendChild(agreeBtn);

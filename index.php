@@ -14,7 +14,7 @@
 <body>
     <div class="w3-container">
         <div class="w3-row">
-            <div class="foreground w3-col m10 w3-white">
+            <div id="foreground" class="foreground w3-col m10 w3-white">
                 <div id="progress-bar" class="w3-col m12"></div>
                 <div class="content w3-col m12">
                     <div id="previousArrow-box">
@@ -38,7 +38,6 @@
         </div>
     </div>
 
-<!--    <script type="text/javascript" src="assets/js/data.js"></script>-->
     <script type="text/javascript" src="assets/js/data.js"></script>
     <script type="text/javascript" src="assets/js/script.js"></script>
 </body>

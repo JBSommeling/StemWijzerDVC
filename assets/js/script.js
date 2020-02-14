@@ -7,15 +7,23 @@ let subjectNr = 0;
 let titles = [];
 let statements = [];
 let numberOfSteps = 0;
-let answers = [];                           //This array keeps tabs on answers given.
-let opinionCounter = [];                    //This array keeps tabs on the score based on the answers given in alphabetical order.
+let numberOfStatements = subjects.length;
+let answers = [];                                   //This array keeps tabs on answers given.
+let opinionCounter = [];                            //This array keeps tabs on the score based on the answers given in alphabetical order.
+
 
 // DOM elements
 let title = document.getElementById("title");
 let description = document.getElementById('description');
 let buttonContainer = document.getElementById("buttons");
 let bar = document.getElementById('progress-bar');
+let foreground = document.getElementById('foreground');
 
+let nextArrow = document.getElementById('nextArrow-box');
+let previousArrow = document.getElementById('previousArrow-box');
+let agreeBtn = document.createElement('button');
+let noneBtn = document.createElement('button');
+let disagreeBtn = document.createElement('button');
 // ============================================================
 // Initialization of elements
 // ============================================================
@@ -48,8 +56,12 @@ function removeFunc(container, element){
 function start(subject, step){
 
     //Initialize buttons
-    document.getElementById('nextArrow-box').style.display = 'inline-block';
-    let previousArrow = document.getElementById('previousArrow-box');
+    nextArrow.style.display = 'inline-block';
+    nextArrow.onclick = function(){
+        nextStep(++step);
+        nextSubject(++subject);
+    };
+
     previousArrow.style.display = 'inline-block';
     previousArrow.onclick = function(){
         if (subject > 0) {
@@ -59,17 +71,17 @@ function start(subject, step){
         }
     };
 
-    let agreeBtn = document.createElement('button');
     agreeBtn.innerHTML = "Eens";
     agreeBtn.className = "w3-button w3-black button";
     agreeBtn.onclick = function(){
-        nextSubject(++subject);
-        nextStep(++step);
+        if (subject < (numberOfStatements-1)) {
+            nextSubject(++subject);
+            nextStep(++step);
+        }
         answers.push("pro");
         calcOpinion();
     };
 
-    let noneBtn = document.createElement('button');
     noneBtn.innerHTML = "Geen van beide";
     noneBtn.className = "w3-button w3-black button";
     noneBtn.onclick = function(){
@@ -79,7 +91,6 @@ function start(subject, step){
         calcOpinion();
     };
 
-    let disagreeBtn = document.createElement('button');
     disagreeBtn.innerHTML = "Oneens";
     disagreeBtn.className = "w3-button w3-black button";
     disagreeBtn.onclick = function(){
@@ -89,6 +100,7 @@ function start(subject, step){
         calcOpinion();
     };
 
+    //To append and initialize buttons and first subject and step.
     buttonContainer.appendChild(agreeBtn);
     buttonContainer.appendChild(noneBtn);
     buttonContainer.appendChild(disagreeBtn);
@@ -140,9 +152,10 @@ function previousSubject(subject){
 
 // Function to calculate/ add +1 to opinionCounter array per given answer by user.
 function calcOpinion(){
-    // To set (reset) values of opinionCounter to 0.
+    opinionCounter = [];
+    // To set (reset) values of opinionCounter to 0 and create an object.
     for (let index = 0; index < parties.length; index++) {
-        opinionCounter[parties[index]['name']] = 0;
+        opinionCounter.push({name: parties[index]['name'], score:0})
     }
 
     // Loop through statements.
@@ -151,13 +164,50 @@ function calcOpinion(){
         for (let partyIndex = 0; partyIndex < subjects[statementIndex]['parties'].length; partyIndex++){
             // Add +1 per party by name if given answer equals to party opinion.
             if (answers[statementIndex] === subjects[statementIndex]['parties'][partyIndex]['position']){
-                opinionCounter[subjects[statementIndex]['parties'][partyIndex]['name']] += 1;
+
+                // Creates and object named party verdere beschrijving toevoegen.
+                let party = opinionCounter.find(function(element){
+                    if (element.name === subjects[statementIndex]['parties'][partyIndex]['name'] )
+                        return element;
+                    return undefined;
+                });
+                party.score += 1;
+                console.log(party);
                 console.log(opinionCounter);
                 console.log(answers);
             }
         }
     }
+    if (answers.length >= numberOfStatements){
+       showResults();
+    }
+}
 
+function showResults(){
+    //numbers.sort((a, b) => a - b);
+    //https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+
+    buttonContainer.innerHTML = "";
+    title.innerHTML = "";
+    nextArrow.style.display = 'none';
+    previousArrow.style.display = 'none';
+    description.innerHTML = "";
+
+    let table = document.createElement('table');
+    table.className = 'resultTable';
+    foreground.appendChild(table);
+    let tableHeader = [];
+    let tableRow = [];
+    let test = opinionCounter.sort();
+    for (let party = 0; party < parties.length; party++){
+        tableRow[party] =  document.createElement('tr');
+        table.appendChild(tableRow[party]);
+
+        tableHeader[party] = document.createElement('td');
+        tableHeader[party].innerHTML = '<span class="progress">'+ parties[party]['name'] +
+            '</span><progress id="file" value="'+ test[parties[party]['name']] + '" max="30"></progress>';
+        tableRow[party].appendChild(tableHeader[party]);
+    }
 }
 
 // ============================================================

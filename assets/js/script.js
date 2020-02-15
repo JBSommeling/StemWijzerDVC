@@ -158,6 +158,10 @@ function previousSubject(subject){
     }
 }
 
+// ============================================================
+// Results
+// ============================================================
+
 // Function to calculate/ add +1 to opinionCounter array per given answer by user.
 function calcOpinion(){
     opinionCounter = [];

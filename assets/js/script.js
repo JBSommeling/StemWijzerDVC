@@ -58,8 +58,12 @@ function start(subject, step){
     //Initialize buttons
     nextArrow.style.display = 'inline-block';
     nextArrow.onclick = function(){
-        nextStep(++step);
-        nextSubject(++subject);
+        if (subject < (numberOfStatements-1)) {
+            nextSubject(++subject);
+            nextStep(++step);
+        }
+        answers.push("");
+        calcOpinion();
     };
 
     previousArrow.style.display = 'inline-block';
@@ -85,8 +89,10 @@ function start(subject, step){
     noneBtn.innerHTML = "Geen van beide";
     noneBtn.className = "w3-button w3-black button";
     noneBtn.onclick = function(){
-        nextSubject(++subject);
-        nextStep(++step);
+        if (subject < (numberOfStatements-1)) {
+            nextSubject(++subject);
+            nextStep(++step);
+        }
         answers.push("none");
         calcOpinion();
     };
@@ -94,8 +100,10 @@ function start(subject, step){
     disagreeBtn.innerHTML = "Oneens";
     disagreeBtn.className = "w3-button w3-black button";
     disagreeBtn.onclick = function(){
-        nextSubject(++subject);
-        nextStep(++step);
+        if (subject < (numberOfStatements-1)) {
+            nextSubject(++subject);
+            nextStep(++step);
+        }
         answers.push("contra");
         calcOpinion();
     };
@@ -162,19 +170,15 @@ function calcOpinion(){
     for (let statementIndex = 0; statementIndex < answers.length; statementIndex++){
         // Per answer go to party opinion.
         for (let partyIndex = 0; partyIndex < subjects[statementIndex]['parties'].length; partyIndex++){
-            // Add +1 per party by name if given answer equals to party opinion.
+            // If given answer equals to party opinion:
             if (answers[statementIndex] === subjects[statementIndex]['parties'][partyIndex]['position']){
-
-                // Creates and object named party verdere beschrijving toevoegen.
+                // Create an object named party and add +1 to party score.
                 let party = opinionCounter.find(function(element){
                     if (element.name === subjects[statementIndex]['parties'][partyIndex]['name'] )
                         return element;
                     return undefined;
                 });
                 party.score += 1;
-                console.log(party);
-                console.log(opinionCounter);
-                console.log(answers);
             }
         }
     }
@@ -183,30 +187,41 @@ function calcOpinion(){
     }
 }
 
+// Function to show the calculated results on screen.
 function showResults(){
-    //numbers.sort((a, b) => a - b);
-    //https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-
+    // Clear fields.
     buttonContainer.innerHTML = "";
     title.innerHTML = "";
     nextArrow.style.display = 'none';
     previousArrow.style.display = 'none';
     description.innerHTML = "";
 
+    //Create variables and arrays.
     let table = document.createElement('table');
+    let tableCaption = document.createElement('caption');
+    tableCaption.innerHTML = "Resultaat StemWijzer";
     table.className = 'resultTable';
-    foreground.appendChild(table);
     let tableHeader = [];
     let tableRow = [];
-    let test = opinionCounter.sort();
-    for (let party = 0; party < parties.length; party++){
-        tableRow[party] =  document.createElement('tr');
-        table.appendChild(tableRow[party]);
 
-        tableHeader[party] = document.createElement('td');
-        tableHeader[party].innerHTML = '<span class="progress">'+ parties[party]['name'] +
-            '</span><progress id="file" value="'+ test[parties[party]['name']] + '" max="30"></progress>';
-        tableRow[party].appendChild(tableHeader[party]);
+    //Append element to container.
+    foreground.appendChild(table);
+    table.appendChild(tableCaption);
+
+    // Function to sort the opinionCounter array-object by score - descending.
+    let sortedOpinionCounter = opinionCounter.sort(function (a,b) {
+            return b.score - a.score;
+        }
+    );
+
+    for (let partyIndex = 0; partyIndex < parties.length; partyIndex++){
+        tableRow[partyIndex] =  document.createElement('tr');
+        table.appendChild(tableRow[partyIndex]);
+
+        tableHeader[partyIndex] = document.createElement('td');
+        tableHeader[partyIndex].innerHTML = '<span class="progress">'+ sortedOpinionCounter[partyIndex]['name'] +
+            '</span><progress id="file" value="'+ sortedOpinionCounter[partyIndex]['score'] + '" max="30"></progress>';
+        tableRow[partyIndex].appendChild(tableHeader[partyIndex]);
     }
 }
 

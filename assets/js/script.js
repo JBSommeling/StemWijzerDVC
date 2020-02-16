@@ -26,6 +26,13 @@ let checkbox_box = document.getElementsByClassName('checkbox-box')[0];
 let agreeBtn = document.createElement('button');
 let noneBtn = document.createElement('button');
 let disagreeBtn = document.createElement('button');
+
+// Elements of result screen.
+let table = document.createElement('table');
+let tableCaption = document.createElement('caption');
+let tableHeader = [];
+let tableRow = [];
+
 // ============================================================
 // Initialization of elements
 // ============================================================
@@ -132,6 +139,24 @@ function uncheck(element){
     element.checked = false;
 }
 
+function clearFields(){
+    buttonContainer.innerHTML = "";
+    title.innerHTML = "";
+    nextArrow.style.display = 'none';
+    previousArrow.style.display = 'none';
+    checkbox_box.style.display = 'none';
+    description.innerHTML = "";
+}
+
+function createTable(){
+    tableCaption.innerHTML = "Resultaat StemWijzer";
+    table.className = 'resultTable';
+
+    //Append element to container.
+    foreground.appendChild(table);
+    table.appendChild(tableCaption);
+}
+
 // ============================================================
 // Subjects
 // ============================================================
@@ -187,7 +212,7 @@ function previousSubject(subject){
 // Results
 // ============================================================
 
-// Function to calculate/ add +1 to opinionCounter array per given answer by user.
+// Function to calculate/ add score to opinionCounter array per given answer by user.
 function calcOpinion(){
     reset();
     // Loop through statements.
@@ -225,33 +250,20 @@ function reset(){
     }
 }
 
-// Function to show the calculated results on screen.
-function showResults(){
-    // Clear fields.
-    buttonContainer.innerHTML = "";
-    title.innerHTML = "";
-    nextArrow.style.display = 'none';
-    previousArrow.style.display = 'none';
-    checkbox_box.style.display = 'none';
-    description.innerHTML = "";
-
-    //Create variables and arrays.
-    let table = document.createElement('table');
-    let tableCaption = document.createElement('caption');
-    tableCaption.innerHTML = "Resultaat StemWijzer";
-    table.className = 'resultTable';
-    let tableHeader = [];
-    let tableRow = [];
-
-    //Append element to container.
-    foreground.appendChild(table);
-    table.appendChild(tableCaption);
-
-    // Function to sort the opinionCounter array-object by score - descending.
-    let sortedOpinionCounter = opinionCounter.sort(function (a,b) {
+// Function to sort array-object by score - descending.
+// @param - oldArray = the array to be sorted.
+function sort(oldArray){
+    return oldArray.sort(function (a, b) {
             return b.score - a.score;
         }
     );
+}
+
+// Function to show the calculated results on screen.
+function showResults(){
+    clearFields();
+    createTable();
+    let sortedOpinionCounter = sort(opinionCounter);
 
     //Bandaid - Libertarische Partij gets doubled when sorting.
     sortedOpinionCounter.splice(22,1);

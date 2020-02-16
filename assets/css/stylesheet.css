@@ -79,11 +79,17 @@ body, html {
     right: 15rem;
 }
 
+.radioButtons-box {
+    position: absolute;
+    bottom: 25rem;
+    transform: translate(-9rem, 5px);
+}
+
 .resultTable {
     position: absolute;
     bottom: 5%;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, 3%);
 }
 
 .progress {

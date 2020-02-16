@@ -14,12 +14,23 @@
 <body>
     <div class="w3-container">
         <div class="w3-row">
-            <div id="foreground" class="foreground w3-col m10 w3-white">
+            <div id="foreground" class="foreground w3-col l10 w3-white">
                 <div id="progress-bar" class="w3-col m12"></div>
                 <div class="content w3-col m12">
                     <div id="previousArrow-box">
                         <img id="previousArrow" src="assets/img/icon-arrow-back.svg" alt="">
                     </div>
+                    <div class="radioButtons-box">
+                        <input type="radio" id="regular" value="regular" name="filter">
+                        <label for="regular">Alle resultaten</label>
+
+                        <input type="radio" id="secular" value="secular" name="filter">
+                        <label for="regular">Seculiere partijen</label>
+
+                        <input type="radio" id="big" value="big" name="filter">
+                        <label for="big">Grote partijen</label>
+                    </div>
+                    
                     <div class="checkbox-box">
                         <input type="checkbox" id="weightChkbx" name="weightChkbx">
                         <label for="weightChkbx">Deze stelling is extra belangrijk.</label>

@@ -10,6 +10,7 @@ let numberOfSteps = 0;
 let numberOfStatements = subjects.length;
 let answers = [];                                   //This array keeps tabs on answers given.
 let opinionCounter = [];                            //This array keeps tabs on the score based on the answers given in alphabetical order.
+let secularParties = [];                            //This array contains only the secular parties based on the parties array
 
 
 // DOM elements
@@ -22,6 +23,9 @@ let nextArrow = document.getElementById('nextArrow-box');
 let previousArrow = document.getElementById('previousArrow-box');
 let checkbox = document.getElementById('weightChkbx');
 let checkbox_box = document.getElementsByClassName('checkbox-box')[0];
+let radioButtons = document.getElementsByClassName('radioButtons-box')[0];
+let secularRadioBtn = document.getElementById('secular');
+let regularRadioBtn = document.getElementById('regular');
 
 let agreeBtn = document.createElement('button');
 let noneBtn = document.createElement('button');
@@ -42,6 +46,7 @@ Initialization of elements
     nextArrow.style.display = 'none';
     previousArrow.style.display = 'none';
     checkbox_box.style.display = 'none';
+    radioButtons.style.display = 'none';
 
 
     let startBtn = document.createElement('button');
@@ -104,7 +109,7 @@ function start(subject, step){
    noneBtn.innerHTML = "Geen van beide";
    noneBtn.className = "w3-button w3-black button";
    noneBtn.onclick = function(){
-       pushAnswer('none')
+       pushAnswer('none');
        calcOpinion();
        uncheck(checkbox);
        if (subject < (numberOfStatements-1)) {
@@ -146,11 +151,19 @@ function clearFields(){
    previousArrow.style.display = 'none';
    checkbox_box.style.display = 'none';
    description.innerHTML = "";
+   table.innerHTML = "";
 }
 
 function createTable(){
    tableCaption.innerHTML = "Resultaat StemWijzer";
    table.className = 'resultTable';
+   radioButtons.style.display = 'block';
+   secularRadioBtn.onclick = function(){
+       showResults('secular');
+   };
+   regularRadioBtn.onclick = function(){
+       showResults();
+   };
 
    //Append element to container.
    foreground.appendChild(table);
@@ -165,7 +178,7 @@ Subjects
 @param - opinion = opinion given by user per statement. */
 function pushAnswer(opinion = ""){
    if (checkbox.checked){
-      answers.push({opinion: 'pro', checked: true});
+      answers.push({opinion: opinion, checked: true});
    }
    else{
       answers.push({opinion: opinion, checked: false });
@@ -237,6 +250,7 @@ function calcOpinion(){
        }
    }
    if (answers.length >= numberOfStatements){
+       addSecularToParties();
        showResults();
    }
 }
@@ -259,23 +273,65 @@ function sort(oldArray){
    );
 }
 
-// Function to show the calculated results on screen.
-function showResults(){
+/*Function to remove duplicates in array-object
+* @param - array = the array to be spliced*/
+function removeDuplicates(array){
+    for (let partyIndex = 0; partyIndex < array.length; partyIndex++){
+        if (array[partyIndex] === array[partyIndex-1]){
+            array.splice(partyIndex, 1);
+        }
+    }
+    return array;
+}
+
+//Function to add the secular property to the opinionCounter array.
+function addSecularToParties(){
+    for (let partyIndex = 0; partyIndex < parties.length; partyIndex++) {
+        secularParties[partyIndex] = parties.find(element => element.secular === true);
+        parties[partyIndex] = "";
+    }
+
+    for (let partyIndex = 0; partyIndex < opinionCounter.length; partyIndex++) {
+        if (secularParties[partyIndex]['name'] === opinionCounter[partyIndex]['name']){
+            opinionCounter[partyIndex]['secular'] = true;
+        }
+    }
+}
+
+/*Function to display the table
+* @param - array = the array to be displayed in a table*/
+function displayTable(array, length) {
+    for (let partyIndex = 0; partyIndex < length; partyIndex++) {
+        tableRow[partyIndex] = document.createElement('tr');
+        table.appendChild(tableRow[partyIndex]);
+
+        tableHeader[partyIndex] = document.createElement('td');
+        tableHeader[partyIndex].innerHTML = '<span class="progress">' + array[partyIndex]['name'] +
+            '</span><progress id="file" value="' + array[partyIndex]['score'] + '" max="30"></progress>';
+        tableRow[partyIndex].appendChild(tableHeader[partyIndex]);
+    }
+}
+
+/*Function to show the calculated results on screen.
+* @param - option = the option to choose between secular, big and regular*/
+function showResults(option = "regular"){
    clearFields();
    createTable();
-   let sortedOpinionCounter = sort(opinionCounter);
+   console.log(parties);
 
-   //Bandaid - Libertarische Partij gets doubled when sorting.
-   sortedOpinionCounter.splice(22,1);
+   if (option === "regular"){
+       let sortedOpinionCounter = sort(opinionCounter);
+       //let test = sortedOpinionCounter.find(element => element.score === 0 && element.name === 'Libertarische Partij');
+       //Libertarische Partij gets doubled when sorting.
+       //sortedOpinionCounter.splice(22,1);
+       displayTable(sortedOpinionCounter, opinionCounter.length);
+   }
 
-   for (let partyIndex = 0; partyIndex < parties.length-1; partyIndex++){
-       tableRow[partyIndex] =  document.createElement('tr');
-       table.appendChild(tableRow[partyIndex]);
-
-       tableHeader[partyIndex] = document.createElement('td');
-       tableHeader[partyIndex].innerHTML = '<span class="progress">'+ sortedOpinionCounter[partyIndex]['name'] +
-           '</span><progress id="file" value="'+ sortedOpinionCounter[partyIndex]['score'] + '" max="30"></progress>';
-       tableRow[partyIndex].appendChild(tableHeader[partyIndex]);
+   else if (option === 'secular') {
+       let secularOpinionCounter = opinionCounter.filter(element => element.secular === true);
+       //Libertarische Partij gets doubled when sorting.
+       let sortedSecularOpinionCounter = sort(secularOpinionCounter);
+       displayTable(sortedSecularOpinionCounter, sortedSecularOpinionCounter.length);
    }
 }
 

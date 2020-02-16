@@ -20,13 +20,16 @@
                     <div id="previousArrow-box">
                         <img id="previousArrow" src="assets/img/icon-arrow-back.svg" alt="">
                     </div>
+                    <div class="checkbox-box">
+                        <input type="checkbox" id="weightChkbx" name="weightChkbx">
+                        <label for="weightChkbx">Deze stelling is extra belangrijk.</label>
+                    </div>
                     <div id="title" class="title"></div>
                     <div id="description" ></div>
                     <div id="buttons"></div>
                     <div id="nextArrow-box">Sla deze vraag over
                         <img id="nextArrow" src="assets/img/icon-backspace-right.svg" alt="">
                     </div>
-
                 </div>
 
                 <div class="footer">

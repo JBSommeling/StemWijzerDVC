@@ -74,6 +74,11 @@ body, html {
     right: 16rem;
 }
 
+.checkbox-box {
+    position: relative;
+    right: 15rem;
+}
+
 .resultTable {
     position: absolute;
     bottom: 5%;

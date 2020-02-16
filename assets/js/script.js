@@ -18,9 +18,11 @@ let description = document.getElementById('description');
 let buttonContainer = document.getElementById("buttons");
 let bar = document.getElementById('progress-bar');
 let foreground = document.getElementById('foreground');
-
 let nextArrow = document.getElementById('nextArrow-box');
 let previousArrow = document.getElementById('previousArrow-box');
+let checkbox = document.getElementById('weightChkbx');
+let checkbox_box = document.getElementsByClassName('checkbox-box')[0];
+
 let agreeBtn = document.createElement('button');
 let noneBtn = document.createElement('button');
 let disagreeBtn = document.createElement('button');
@@ -30,8 +32,10 @@ let disagreeBtn = document.createElement('button');
 
 //To render the start screen.
 (function () {
-    document.getElementById('nextArrow-box').style.display = 'none';
-    document.getElementById('previousArrow-box').style.display = 'none';
+    nextArrow.style.display = 'none';
+    previousArrow.style.display = 'none';
+    checkbox_box.style.display = 'none';
+
 
     let startBtn = document.createElement('button');
     startBtn.innerHTML = "Start";
@@ -56,14 +60,17 @@ function removeFunc(container, element){
 function start(subject, step){
 
     //Initialize buttons
+    checkbox_box.style.display = 'block';
+
     nextArrow.style.display = 'inline-block';
     nextArrow.onclick = function(){
+        pushAnswer();
+        calcOpinion();
+        uncheck(checkbox);
         if (subject < (numberOfStatements-1)) {
             nextSubject(++subject);
             nextStep(++step);
         }
-        answers.push("");
-        calcOpinion();
     };
 
     previousArrow.style.display = 'inline-block';
@@ -78,34 +85,37 @@ function start(subject, step){
     agreeBtn.innerHTML = "Eens";
     agreeBtn.className = "w3-button w3-black button";
     agreeBtn.onclick = function(){
+        pushAnswer('pro');
+        calcOpinion();
+        uncheck(checkbox);
         if (subject < (numberOfStatements-1)) {
             nextSubject(++subject);
             nextStep(++step);
         }
-        answers.push("pro");
-        calcOpinion();
     };
 
     noneBtn.innerHTML = "Geen van beide";
     noneBtn.className = "w3-button w3-black button";
     noneBtn.onclick = function(){
+        pushAnswer('none')
+        calcOpinion();
+        uncheck(checkbox);
         if (subject < (numberOfStatements-1)) {
             nextSubject(++subject);
             nextStep(++step);
         }
-        answers.push("none");
-        calcOpinion();
     };
 
     disagreeBtn.innerHTML = "Oneens";
     disagreeBtn.className = "w3-button w3-black button";
     disagreeBtn.onclick = function(){
+        pushAnswer('contra');
+        calcOpinion();
+        uncheck(checkbox);
         if (subject < (numberOfStatements-1)) {
             nextSubject(++subject);
             nextStep(++step);
         }
-        answers.push("contra");
-        calcOpinion();
     };
 
     //To append and initialize buttons and first subject and step.
@@ -117,10 +127,25 @@ function start(subject, step){
     nextStep(numberOfSteps);
 }
 
+// Function to uncheck checkbox
+function uncheck(element){
+    element.checked = false;
+}
+
 // ============================================================
 // Subjects
 // ============================================================
 
+//Function to push answers to answer-object.
+//@param - opinion = opinion given by user per statement.
+function pushAnswer(opinion = ""){
+    if (checkbox.checked){
+       answers.push({opinion: 'pro', checked: true});
+    }
+    else{
+       answers.push({opinion: opinion, checked: false });
+    }
+}
 
 //Function to go to next subject.
 // @param subject - number of subject.
@@ -164,30 +189,39 @@ function previousSubject(subject){
 
 // Function to calculate/ add +1 to opinionCounter array per given answer by user.
 function calcOpinion(){
-    opinionCounter = [];
-    // To set (reset) values of opinionCounter to 0 and create an object.
-    for (let index = 0; index < parties.length; index++) {
-        opinionCounter.push({name: parties[index]['name'], score:0})
-    }
-
+    reset();
     // Loop through statements.
     for (let statementIndex = 0; statementIndex < answers.length; statementIndex++){
         // Per answer go to party opinion.
         for (let partyIndex = 0; partyIndex < subjects[statementIndex]['parties'].length; partyIndex++){
             // If given answer equals to party opinion:
-            if (answers[statementIndex] === subjects[statementIndex]['parties'][partyIndex]['position']){
-                // Create an object named party and add +1 to party score.
+            if (answers[statementIndex]['opinion'] === subjects[statementIndex]['parties'][partyIndex]['position']){
+                // Create an object named party and add +1 to party score if checkbox is unchecked, else +2 if checkbox is checked.
                 let party = opinionCounter.find(function(element){
                     if (element.name === subjects[statementIndex]['parties'][partyIndex]['name'] )
                         return element;
                     return undefined;
                 });
-                party.score += 1;
+                if (answers[statementIndex]['checked'] === true){
+                    party.score += 2;
+                }
+                else{
+                    party.score += 1;
+                }
             }
         }
     }
     if (answers.length >= numberOfStatements){
-       showResults();
+        showResults();
+    }
+}
+
+//Function to reset values of opinionCounter to 0 and create an object.
+function reset(){
+    opinionCounter = [];
+    // To set (reset) values of opinionCounter to 0 and create an object.
+    for (let index = 0; index < parties.length; index++) {
+        opinionCounter.push({name: parties[index]['name'], score:0})
     }
 }
 
@@ -198,6 +232,7 @@ function showResults(){
     title.innerHTML = "";
     nextArrow.style.display = 'none';
     previousArrow.style.display = 'none';
+    checkbox_box.style.display = 'none';
     description.innerHTML = "";
 
     //Create variables and arrays.
@@ -218,7 +253,10 @@ function showResults(){
         }
     );
 
-    for (let partyIndex = 0; partyIndex < parties.length; partyIndex++){
+    //Bandaid - Libertarische Partij gets doubled when sorting.
+    sortedOpinionCounter.splice(22,1);
+
+    for (let partyIndex = 0; partyIndex < parties.length-1; partyIndex++){
         tableRow[partyIndex] =  document.createElement('tr');
         table.appendChild(tableRow[partyIndex]);
 

@@ -317,7 +317,6 @@ function displayTable(array, length) {
 function showResults(option = "regular"){
    clearFields();
    createTable();
-   console.log(parties);
 
    if (option === "regular"){
        let sortedOpinionCounter = sort(opinionCounter);

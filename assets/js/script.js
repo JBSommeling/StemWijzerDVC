@@ -282,15 +282,12 @@ function showResults(option = "regular"){
 
     if (option === "regular"){
         let sortedOpinionCounter = sort(opinionCounter);
-        //let test = sortedOpinionCounter.find(element => element.score === 0 && element.name === 'Libertarische Partij');
-        //Libertarische Partij gets doubled when sorting.
-        //sortedOpinionCounter.splice(22,1);
         displayTable(sortedOpinionCounter, opinionCounter.length);
     }
 
     else if (option === 'secular') {
         let secularOpinionCounter = opinionCounter.filter(element => element.secular === true);
-        //Libertarische Partij gets doubled when sorting.
+
         let sortedSecularOpinionCounter = sort(secularOpinionCounter);
         displayTable(sortedSecularOpinionCounter, sortedSecularOpinionCounter.length);
     }

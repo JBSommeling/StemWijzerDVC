@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/css/stylesheet.css">
 </head>
 <body>
-    <div class="w3-container">
+    <div class="w3-container" id="container">
         <div class="w3-row">
             <div id="foreground" class="foreground w3-col l10 w3-white">
                 <div id="progress-bar" class="w3-col m12"></div>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
 
-                <div class="footer">
+                <div class="footer" id="footer">
                     <img id="logo-stemwijzer" src="assets/img/logo-stemwijzer-white.png" alt="">
                     <img id="logo-1v-s" src="assets/img/logo-1v-small.svg" alt="">
                     <img id="logo-prodemos" src="assets/img/logo-prodemos.svg" alt="">

@@ -17,6 +17,8 @@ let bigParties = [];                                //This arrat contains only t
 const BIGPARTYSIZE = 15;
 
 // DOM elements
+const CONTAINER = document.getElementById('container');
+const FOOTER = document.getElementById('footer');
 const TITLE = document.getElementById("title");
 const DESCRIPTION = document.getElementById('description');
 const BUTTON_CONTAINER = document.getElementById("buttons");
@@ -30,6 +32,7 @@ const RADIO_BTNS = document.getElementsByClassName('radioButtons-box')[0];
 const SECULAR_RADIOBTN = document.getElementById('secular');
 const REGULAR_RADIOBTN = document.getElementById('regular');
 const BIG_RADIOBTN = document.getElementById('big');
+const PROGRESS_BAR = document.getElementById('progress-bar');
 
 const PRO_BTN = document.createElement('button');
 const NONE_BTN = document.createElement('button');
@@ -178,6 +181,13 @@ function createTable(){
    //Append element to container.
    FOREGROUND.appendChild(TABLE);
    TABLE.appendChild(TABLE_CAPTION);
+
+   //Remove elements from result page.
+   PROGRESS_BAR.style.display = 'none';
+   CONTAINER.style.background = "none";
+   CONTAINER.style.backgroundColor = 'white';
+   FOOTER.style.display = 'none';
+
 }
 
 /* ============================================================
@@ -352,6 +362,7 @@ function addPropertiesToOpinionCounter(){
 function displayTable(array, length) {
     for (let partyIndex = 0; partyIndex < length; partyIndex++) {
         TABLE_ROW[partyIndex] = document.createElement('tr');
+        TABLE_ROW[partyIndex].className = 'result';
         TABLE.appendChild(TABLE_ROW[partyIndex]);
 
         TABLE_HEADER[partyIndex] = document.createElement('td');

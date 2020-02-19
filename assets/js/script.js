@@ -151,6 +151,7 @@ function uncheck(element){
    element.checked = false;
 }
 
+// Function to clear the fields.
 function clearFields(){
    BUTTON_CONTAINER.innerHTML = "";
    TITLE.innerHTML = "";
@@ -159,9 +160,12 @@ function clearFields(){
    CHECKBOX_BOX.style.display = 'none';
    DESCRIPTION.innerHTML = "";
    TABLE.innerHTML = "";
+   PROGRESS_BAR.style.display = 'none';
+   FOOTER.style.display = 'none';
 }
 
-function createTable(){
+// Function to create the table with radiobuttons
+function createResultScreen(){
    TABLE_CAPTION.innerHTML = "Resultaat StemWijzer";
    TABLE.className = 'resultTable';
    RADIO_BTNS.style.display = 'block';
@@ -182,11 +186,9 @@ function createTable(){
    FOREGROUND.appendChild(TABLE);
    TABLE.appendChild(TABLE_CAPTION);
 
-   //Remove elements from result page.
-   PROGRESS_BAR.style.display = 'none';
-   CONTAINER.style.background = "none";
-   CONTAINER.style.backgroundColor = 'white';
-   FOOTER.style.display = 'none';
+   // To make foreground expand to 100vh.
+   FOREGROUND.className = 'foreground-result w3-col l10 w3-white'
+
 
 }
 
@@ -288,7 +290,7 @@ function reset(){
 * @param - option = the option to choose between secular, big and regular*/
 function showResults(option = "regular"){
     clearFields();
-    createTable();
+    createResultScreen();
 
     if (option === "regular"){
         let sortedOpinionCounter = sort(opinionCounter);

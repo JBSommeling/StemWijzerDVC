@@ -11,7 +11,7 @@ let numberOfStatements = subjects.length;
 let answers = [];                                   //This array keeps tabs on answers given.
 let opinionCounter = [];                            //This array keeps tabs on the score based on the answers given in alphabetical order.
 let secularParties = [];                            //This array contains only the secular parties based on the parties array
-let bigParties = [];                                //This arrat contains only the big parties based on the parties array.
+let bigParties = [];                                //This array contains only the big parties based on the parties array.
 
 // Constants
 const BIGPARTYSIZE = 15;

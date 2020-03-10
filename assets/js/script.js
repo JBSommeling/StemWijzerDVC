@@ -187,9 +187,7 @@ function createResultScreen(){
    TABLE.appendChild(TABLE_CAPTION);
 
    // To make foreground expand to 100vh.
-   FOREGROUND.className = 'foreground-result w3-col l10 w3-white'
-
-
+   FOREGROUND.className = 'foreground-result w3-col l10 w3-white';
 }
 
 /* ============================================================

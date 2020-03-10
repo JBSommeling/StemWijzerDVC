@@ -254,7 +254,8 @@ function calcOpinion(){
        for (let partyIndex = 0; partyIndex < subjects[statementIndex]['parties'].length; partyIndex++){
            // If given answer equals to party opinion:
            if (answers[statementIndex]['opinion'] === subjects[statementIndex]['parties'][partyIndex]['position']){
-               // Create an object named party and add +1 to party score if checkbox is unchecked, else +2 if checkbox is checked.
+               /* Gets the element from opinionCounter which name is equal to the subjects's parties
+                and add +1 to party score if checkbox is unchecked, else +2 if checkbox is checked. */
                let party = opinionCounter.find(function(element){
                    if (element.name === subjects[statementIndex]['parties'][partyIndex]['name'] )
                        return element;

@@ -1,3 +1,7 @@
+//feedback Danny van der Weijde 11/3/2020
+//Ziet er goed uit. Het is netjes verdeeld in delen waardoor het heel overzichtelijk over komt.
+//Over staan ook comments bij waardoor je meteen weet wat de code doet wat er onder staat.
+
 /* ============================================================
 Initializer
  ============================================================*/
